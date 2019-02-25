@@ -277,7 +277,9 @@
         margin: 20px 0 0 60px;
 
         /deep/ .h-radio {
-            display: block;
+            label{
+                display: block;
+            }
         }
 
         .select {
@@ -286,6 +288,8 @@
             .select-index {
                 font-size: 12px;
                 margin-bottom: 5px;
+                font-weight: 800;
+                color: @red-color;
             }
         }
     }
