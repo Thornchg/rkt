@@ -1,12 +1,12 @@
 <template>
     <div class="container">
         <div class="exam-header">
-            <h1 class="exam-title text-center">2018年下半年软件设计师真题模拟考试（上午）</h1>
+            <h1 class="exam-title text-center">{{data.paper.title}}</h1>
             <div class="exam-meta text-center">
                 <span>题型：选择题</span>
-                <span>考试时间：150分钟</span>
-                <span>题数：75</span>
-                <span>总分：75</span>
+                <span>考试时间：{{data.paper.time}}分钟</span>
+                <span>题数：{{data.paper.count}}</span>
+                <span>总分：{{data.paper.total}}</span>
 
             </div>
         </div>
@@ -16,29 +16,38 @@
                     <div class="h-panel-body">
                         <div class="question-index">第<span>{{questionIndex}}</span>题：</div>
                         <div class="question">
-                            <div class="question-topic">
-                                {{paper.questions[questionIndex-1].topic}}
+                            <div class="question-topic" v-html="data.paper.questions[questionIndex-1].topic">
                             </div>
                             <div class="question-selects">
-
                                 <div class="select"
-                                     v-for="(select,index) in paper.questions[questionIndex-1].selects">
+                                     v-for="(select,index) in data.paper.questions[questionIndex-1].selects">
                                     <div class="select-index">问题{{index+1}}选项：</div>
-                                    <Radio v-model="paper.questions[questionIndex-1].answer[index]"
+                                    <!--<Radio v-model="paper.questions[questionIndex-1].answer[index]"
                                            :datas="select" @change="exeSelect">
                                         <template slot="item" slot-scope="{item}">
                                             {{item.key+'. '+item.title}}
                                         </template>
-                                    </Radio>
-
+                                    </Radio>-->
+                                    <Radio value='A' v-model="select.answer" @change="exeSelect">A. {{select.choiceA}}</Radio>
+                                    <Radio value='B' v-model="select.answer" @change="exeSelect">B. {{select.choiceB}}</Radio>
+                                    <Radio value='C' v-model="select.answer" @change="exeSelect">C. {{select.choiceC}}</Radio>
+                                    <Radio value='D' v-model="select.answer" @change="exeSelect">D. {{select.choiceD}}</Radio>
                                 </div>
+                            </div>
+                            <div class="question-operate text-right my-3">
+                                <Button icon="h-icon-star-on" noBorder
+                                        :text-color="data.paper.questions[questionIndex-1].mark?'yellow':'gray'"
+                                @click="toggleMark">
+                                    {{data.paper.questions[questionIndex-1].mark?'取消标记':'标记'}}
+                                </Button>
+                                <!--<Button icon="h-icon-star-on" noBorder text-color="gray">收藏</Button>-->
                             </div>
                         </div>
                         <div class="question-change-area d-flex">
                             <Button @click="previous" :disabled="questionIndex===1">
                                 <i class="fa fa-arrow-left"></i> 上一题
                             </Button>
-                            <Button @click="next" :disabled="questionIndex===paper.questions.length">
+                            <Button @click="next" :disabled="questionIndex===data.paper.questions.length">
                                 下一题 <i class="fa fa-arrow-right"></i></Button>
                         </div>
                     </div>
@@ -61,11 +70,20 @@
                         <p class="text-bold">选择题</p>
                         <div class="answer-sheet-body">
                             <div class="answer-sheet-items">
-                                <span v-for="(question,index) in paper.questions" @click="change(index)"
+                                <span v-for="(question,index) in data.paper.questions" @click="change(index)"
                                 :class="{has:question.has,mark:question.mark}">{{index+1}}</span>
                                 <!--<span class="has mark">1</span>-->
                             </div>
                         </div>
+                        <div class="sheet-style-mean answer-sheet-items text-bold text-right">
+                            <span>1</span>未做
+                            <span class="has">1</span>已做
+                            <span class="mark">1</span>标记
+
+
+                        </div>
+                        <p><Button :block="true" size="l" color="primary" @click="submitPaper">交卷</Button></p>
+                        <p><Button :block="true" size="l" color="yellow">下次再做</Button></p>
                     </div>
                 </div>
             </div>
@@ -76,87 +94,91 @@
 <script>
     export default {
         name: "Exam",
+        props:['id'],
         data() {
             return {
                 questionIndex: 1,
                 data: {
+                    id:this.id,
+                    usedTime: 0,
+                    paper: {
+                        title: '2018年下半年软件设计师真题模拟考试（上午）',
+                        totle: 75,
+                        count: 75,
+                        time: 150,
+                        questions: [
+                            {
+                                topic: "在输入输出控制方法中，采用（ ）可以使得设备与主存间的数据块传送无需CPU干预。",
+                                selects: [
+                                    {
+                                        choiceA: '程序控制输入输出',
+                                        choiceB: '中断',
+                                        choiceC: 'DMA',
+                                        choiceD: '总线控制',
+                                    }
+                                ],
+                                answer:[],
+                                mark:true,
+                            }, {
+                                topic: "在输入输出控制方法中，采用（ ）可以使得设备与主存间的数据块传送无需CPU干预。",
+                                selects: [
+                                    {
+                                        choiceA: '程序控制输入输出',
+                                        choiceB: '中断',
+                                        choiceC: 'DMA',
+                                        choiceD: '总线控制',
+                                    }, {
+                                        choiceA: '程序控制输入输出',
+                                        choiceB: '中断',
+                                        choiceC: 'DMA',
+                                        choiceD: '总线控制',
+                                    }
+                                ],
+                                answer:[],
+                            },{
+                                topic: "在输入输出控制方法中，采用（ ）可以使得设备与主存间的数据块传送无需CPU干预。",
+                                selects: [
+                                    {
+                                        choiceA: '程序控制输入输出',
+                                        choiceB: '中断',
+                                        choiceC: 'DMA',
+                                        choiceD: '总线控制',
+                                    }, {
+                                        choiceA: '程序控制输入输出',
+                                        choiceB: '中断',
+                                        choiceC: 'DMA',
+                                        choiceD: '总线控制',
+                                    }
+                                ],
+                                answer:[],
+                            },{
+                                topic: "在输入输出控制方法中，采用（ ）可以使得设备与主存间的数据块传送无需CPU干预。",
+                                selects: [
+                                    {
+                                        choiceA: '程序控制输入输出',
+                                        choiceB: '中断',
+                                        choiceC: 'DMA',
+                                        choiceD: '总线控制',
+                                    }, {
+                                        choiceA: '程序控制输入输出',
+                                        choiceB: '中断',
+                                        choiceC: 'DMA',
+                                        choiceD: '总线控制',
+                                    }, {
+                                        choiceA: '程序控制输入输出',
+                                        choiceB: '中断',
+                                        choiceC: 'DMA',
+                                        choiceD: '总线控制',
+                                    }
+                                ],
+                                answer:[],
+                            }
+                        ]
+                    }
                 },
                 timeScroll: true,
-                usedTime: 0,
-                paper: {
-                    title: '2018年下半年软件设计师真题模拟考试（上午）',
-                    totle: 75,
-                    count: 75,
-                    time: 150,
-                    questions: [
-                        {
-                            topic: "在输入输出控制方法中，采用（ ）可以使得设备与主存间的数据块传送无需CPU干预。",
-                            selects: [
-                                {
-                                    A: '程序控制输入输出',
-                                    B: '中断',
-                                    C: 'DMA',
-                                    D: '总线控制',
-                                }
-                            ],
-                            answer:[],
-                            mark:true,
-                        }, {
-                            topic: "在输入输出控制方法中，采用（ ）可以使得设备与主存间的数据块传送无需CPU干预。",
-                            selects: [
-                                {
-                                    A: '程序控制输入输出',
-                                    B: '中断',
-                                    C: 'DMA',
-                                    D: '总线控制',
-                                }, {
-                                    A: '程序控制输入输出',
-                                    B: '中断',
-                                    C: 'DMA',
-                                    D: '总线控制',
-                                }
-                            ],
-                            answer:[],
-                        },{
-                            topic: "在输入输出控制方法中，采用（ ）可以使得设备与主存间的数据块传送无需CPU干预。",
-                            selects: [
-                                {
-                                    A: '程序控制输入输出',
-                                    B: '中断',
-                                    C: 'DMA',
-                                    D: '总线控制',
-                                }, {
-                                    A: '程序控制输入输出',
-                                    B: '中断',
-                                    C: 'DMA',
-                                    D: '总线控制',
-                                }
-                            ],
-                            answer:[],
-                        },{
-                            topic: "在输入输出控制方法中，采用（ ）可以使得设备与主存间的数据块传送无需CPU干预。",
-                            selects: [
-                                {
-                                    A: '程序控制输入输出',
-                                    B: '中断',
-                                    C: 'DMA',
-                                    D: '总线控制',
-                                }, {
-                                    A: '程序控制输入输出',
-                                    B: '中断',
-                                    C: 'DMA',
-                                    D: '总线控制',
-                                }, {
-                                    A: '程序控制输入输出',
-                                    B: '中断',
-                                    C: 'DMA',
-                                    D: '总线控制',
-                                }
-                            ],
-                            answer:[],
-                        }
-                    ]
-                }
+
+
             }
         },
         methods: {
@@ -166,13 +188,13 @@
                 }
             },
             next() {
-                if (this.questionIndex < this.paper.questions.length) {
+                if (this.questionIndex < this.data.paper.questions.length) {
                     this.questionIndex++;
                 }
             },
             timing() {
                 setTimeout(() => {
-                    this.usedTime++;
+                    this.data.usedTime++;
                     if (this.timeScroll)
                         this.timing();
                 }, 1000);
@@ -183,11 +205,27 @@
             change(index){
                 this.questionIndex=index+1;
             },
+            toggleMark(){
+                let question=this.data.paper.questions[this.questionIndex-1];
+                question.mark=!question.mark;
+            },
             exeSelect(data){
+                console.log("exeSelect")
                 // console.log(this.questionIndex);
-                let question=this.paper.questions[this.questionIndex-1];
-                let selectCount=question.selects.length;
-                // console.log(question.answer.length,selectCount);
+                let question=this.data.paper.questions[this.questionIndex-1];
+
+                for (let select of question.selects){
+                    console.log(select.answer);
+                    if (!select.answer||select.answer===''){
+                        question.has=false;
+                        return;
+                    }
+                }
+                question.has=true;
+
+
+                /*let selectCount=question.selects.length;
+                console.log(question.answer.length,selectCount);
                 if (question.answer.length===selectCount){
                     for (let temp of question.answer){
                         if (!temp){
@@ -198,14 +236,59 @@
                     question.has=true;
                     return;
                 }
-                question.has=false;
+                question.has=false;*/
+            },
+            getPaper(){
+                if (this.id){
+                    console.log(this.id);
+                    axios.post('/paper/getPaperByRecord',this.id,{
+                            headers: {'Content-Type': 'application/json'}
+                        })
+                        .then(response=>{
+                            let paper=response.data;
+                            paper.questions=JSON.parse(paper.questions);
 
+                            if (paper.questionType===1){
+                                for (let question of paper.questions){
+                                    question.has=false;
+                                    question.mark=false;
+                                    // question.selects=JSON.parse(question.selects);
+                                    for (let select of question.selects) {
+                                        select.answer=null;
+                                    }
+                                }
+                            }
+                            this.data.paper=paper;
+                        })
+                        .catch(error=>{
+                            console.error(error)
+                        })
 
+                } else {
+                    this.$router.replace('/404');
+                }
+            },
+            submitPaper(){
+                axios.post('/paper/submitPaper',JSON.stringify(this.data),
+                    {headers:{'Content-Type':'application/json'}})
+                    .then(response=>{
+                        console.log(response.data);
+                        if (this.data.paper.questionType===1){
+                            this.$router.push('/examResult/'+this.id);
+                        } else {
+                            this.$Message.success('成功提交答卷，请等待人工评卷！');
+                            this.$router.push('/examRecord')
+
+                        }
+                    })
+                    .catch(error=>{
+                        console.error(error);
+                    })
             }
         },
         computed: {
             time() {
-                let lastTime = (this.paper.time*60)-this.usedTime;
+                let lastTime = (this.data.paper.time*60)-this.data.usedTime;
                 let minute=parseInt(lastTime/60);
                 let second=lastTime-minute*60;
                 return minute+':'+this.prefixZero(second,2);
@@ -236,6 +319,9 @@
         },
         mounted() {
             this.timing();
+        },
+        created() {
+            this.getPaper();
         }
     }
 </script>
@@ -291,6 +377,9 @@
                 font-weight: 800;
                 color: @red-color;
             }
+            .h-radio{
+                display: block;
+            }
         }
     }
 
@@ -334,6 +423,9 @@
         font-weight: 800;
         padding: 8px 0;
     }
+    .answer-sheet-body{
+        margin-bottom: 40px;
+    }
     .answer-sheet-items{
         span{
             display: inline-block;
@@ -362,6 +454,11 @@
             border: 5px solid #e5a14e;
             border-right-color: transparent;
             border-bottom-color: transparent;
+        }
+    }
+    .sheet-style-mean{
+        span{
+            margin-left: 5px;
         }
     }
 

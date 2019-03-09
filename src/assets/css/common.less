@@ -1,5 +1,14 @@
 @import (less) "~heyui/themes/common.less";
 
+.h-loadingbar-inner.loading{
+  height: 3px;
+}
+.h-loadingbar-inner{
+  background-color: #1ec2c5;
+  transition: all .2s linear;
+  //box-shadow: 1px 1px 3px #CCCCCC;
+
+}
 body{
   margin: 0;
   padding: 0;
@@ -18,9 +27,16 @@ body{
 }
 .flex-space-between{
   justify-content: space-between;
+
+}
+.flew-grow{
+  flex-grow: 1;
 }
 .text-center{
   text-align: center;
+}
+.text-right{
+  text-align: right;
 }
 .text-bold{
   font-weight: bold;
@@ -57,4 +73,7 @@ body{
 }
 .ml-2{
   margin-left: 0.5rem !important;
+}
+.p-4{
+  padding: 1rem;
 }

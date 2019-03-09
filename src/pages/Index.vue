@@ -52,7 +52,7 @@
             <div class="h-panel remain-day">
                 <div class="h-panel-body">
                     <p>距离
-                        <time>{{`${examDate.getFullYear()}-${examDate.getMonth()+1}-${examDate.getDate()}`}}</time>
+                        <time>{{examDateLocal}}</time>
                         考试还有
                     </p>
                     <p class="day-count">
@@ -71,13 +71,13 @@
         name: "Index",
         data() {
             return {
-                examDate: '',
+                examDate: new Date(),
             }
         },
         methods: {
             setExamDate() {
-                let now = new Date();
-                let date = new Date();
+                var now = new Date();
+                var date = new Date();
                 let month = 0;
                 if (now.getMonth() < 4 || now.getMonth() === 11) {
                     month = 4;
@@ -103,6 +103,11 @@
         computed: {
             remainDay() {
                 return this.datedifference(new Date(),this.examDate);
+            },
+            examDateLocal(){
+                return this.examDate.getFullYear()+'-'+(this.examDate.getMonth()+1)+'-'+this.examDate.getDate();
+                // `${examDate.getFullYear()}-${examDate.getMonth()+1}-${examDate.getDate()}`
+                // return this.examDate;
             }
         },
         mounted() {

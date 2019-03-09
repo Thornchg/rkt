@@ -3,7 +3,8 @@
     <Layout>
       <Sider><SideMenu></SideMenu></Sider>
       <Content class="ml-2">
-        <Index></Index>
+        <router-view></router-view>
+        <!--<Index></Index>-->
       </Content>
     </Layout>
   </div>

@@ -1,7 +1,7 @@
 <template>
     <header class="header">
         <div class="container d-flex flex-space-between">
-            <h3>软考通</h3>
+            <h3><router-link to="/">软考通</router-link></h3>
             <div class="header-nav" v-if="isLogin">
                 <Button class="header-link"  :text="true">
                     <!--<div class="av"></div>-->
@@ -63,6 +63,14 @@
             logout(){
                 this.$Confirm("确定退出账号？").then(()=>{
                     this.$store.commit("logout");
+
+                    axios.get("/logout").then(response=>{
+                        // console.log(response)
+                        this.$store.commit('logout');
+                    })
+                        .catch(error=>{
+                            console.error(error)
+                        })
                 }).catch(()=>{})
             },
             goIndex(){

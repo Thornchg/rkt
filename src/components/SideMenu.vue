@@ -6,10 +6,11 @@
             </h4>
             <div class="menu-block-body">
                 <ul>
-                    <li><a href=""> - 每日一练</a></li>
-                    <li><a href=""> - 历年真题在线模考</a></li>
+                    <li><router-link to="/paperList/choice/everyDay"> - 每日一练</router-link></li>
+                    <li><router-link to="/paperList/choice/pastYears"> - 历年真题在线模考</router-link></li>
                     <li><a href=""> - 知识分类专项练习</a></li>
-                    <li><a href=""> - 全真模拟试卷模考</a></li>
+                    <li><router-link to="/paperList/choice/simulation"> - 全真模拟试卷模考</router-link></li>
+                    <li><router-link to="/examRecord/choice"> - 练习记录</router-link></li>
                 </ul>
             </div>
         </div>
@@ -19,10 +20,11 @@
             </h4>
             <div class="menu-block-body">
                 <ul>
-                    <li><a href=""> - 每日一练</a></li>
-                    <li><a href=""> - 历年真题在线模考</a></li>
-                    <li><a href=""> - 知识分类专项练习</a></li>
-                    <li><a href=""> - 全真模拟试卷模考</a></li>
+                    <li><router-link to="/paperList/case/everyDay"> - 每日一练</router-link></li>
+                    <li><router-link to="/paperList/case/pastYears"> - 历年真题在线模考</router-link></li>
+                    <li><router-link to=""> - 知识分类专项练习</router-link></li>
+                    <li><router-link to="/paperList/case/simulation"> - 全真模拟试卷模考</router-link></li>
+                    <li><router-link to="/examRecord/case"> - 练习记录</router-link></li>
                 </ul>
             </div>
         </div>
